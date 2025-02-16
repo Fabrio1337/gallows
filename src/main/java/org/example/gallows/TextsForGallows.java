@@ -36,6 +36,7 @@ public class TextsForGallows {
         return false;
     }
 
+    //метод в котором считываются слова и разделяются на буквы
     protected HashSet<ArrayList<Character>> addWords(String word)
     {
         HashSet<ArrayList<Character>> words = new HashSet<>(); //слова в темах
