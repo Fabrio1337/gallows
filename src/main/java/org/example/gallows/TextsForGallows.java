@@ -1,62 +1,65 @@
 package org.example.gallows;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.stereotype.Component;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
+
+@Component
 public class TextsForGallows {
+    private Map<String, Set<String>> themes = new HashMap<>();
 
-    //иерархия: themes -> words -> chars
-    private Map<String, HashSet<ArrayList<Character>>> themes; //темы
 
-    protected boolean addThemes()
-    {
-        themes = new HashMap<String, HashSet<ArrayList<Character>>>();
-
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("themes.txt");
-        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-        try
-        {
-            String line = br.readLine();
-            while(line != null)
-            {
-                themes.put(line, addWords(line));
-            }
-
-        }
-        catch (IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        return false;
+    public TextsForGallows() {
+        loadThemes();
     }
 
-    //метод в котором считываются слова и разделяются на буквы
-    protected HashSet<ArrayList<Character>> addWords(String word)
-    {
-        HashSet<ArrayList<Character>> words = new HashSet<>(); //слова в темах
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(word + ".txt");
-        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+    private void loadThemes() {
         try {
-            String line = br.readLine();
-            while(line != null)
-            {
-                ArrayList<Character> chars = new ArrayList<>(); //буквы в слове
-                for(char c : line.toCharArray())
-                {
-                    chars.add(c);
+            // Загружаем все .txt файлы из папки themes/
+            PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+            Resource[] resources = resolver.getResources("classpath:themes/*.txt");
+
+            for (Resource resource : resources) {
+                String themeName = resource.getFilename().replace(".txt", ""); // Название темы = имя файла
+                Set<String> words = new HashSet<>();
+
+                try (BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        words.add(line.trim());
+                    }
                 }
-                words.add(chars);
+                themes.put(themeName, words);
             }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return words;
+    }
+
+    public Map<String, Set<String>> getThemes() {
+        return themes;
+    }
+
+
+    //тестовый метод для проверки
+    public void printThemes()
+    {
+        for(Map.Entry<String, Set<String>> entry : themes.entrySet())
+        {
+            System.out.println(entry);
+        }
     }
 
 }
