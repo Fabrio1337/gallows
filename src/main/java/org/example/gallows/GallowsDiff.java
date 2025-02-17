@@ -2,13 +2,27 @@ package org.example.gallows;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GallowsDiff {
 
+    private TextsForGallows textsForGallows;
+
     @FXML
     private Label diff;
+
+    @Autowired
+    public GallowsDiff(TextsForGallows textsForGallows) {
+        this.textsForGallows = textsForGallows;
+    }
+
+    protected void gallowsVisible()
+    {
+
+    }
 
 
     @FXML
