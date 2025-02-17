@@ -8,9 +8,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class GallowsApplication extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(GallowsApplication.class.getResource("start_gallows.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GallowsApplication.class.getResource("/start_gallows.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 250, 150);
         stage.setTitle("Виселица");
         stage.setScene(scene);
@@ -20,4 +21,5 @@ public class GallowsApplication extends Application {
     public static void main(String[] args) {
         launch();
     }
+
 }
