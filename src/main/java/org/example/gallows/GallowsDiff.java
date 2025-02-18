@@ -3,30 +3,37 @@ package org.example.gallows;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.io.IOException;
+
+
 public class GallowsDiff {
 
-    private TextsForGallows textsForGallows;
+    protected GallowsThemesFXML gallowsThemesFXML;
+    protected AnnotationConfigApplicationContext context = GetBeans.getContext();
 
     @FXML
     private Label diff;
 
-    @Autowired
-    public GallowsDiff(TextsForGallows textsForGallows) {
-        this.textsForGallows = textsForGallows;
+    protected void gallowsVisible() throws IOException
+    {
+        gallowsThemesFXML.setDisplay();
+        isVisible();
     }
 
-    protected void gallowsVisible()
+    protected void isVisible()
     {
-
+        GallowsDiffFXML gallowsDiffFXML = context.getBean("getGallowsDiffFXML", GallowsDiffFXML.class);
+        gallowsDiffFXML.isVisible(false);
     }
 
 
     @FXML
     protected void initialize() {
+        gallowsThemesFXML = context.getBean("getGallowsThemesFXML", GallowsThemesFXML.class);
         diffVisible();
     }
 
@@ -34,20 +41,20 @@ public class GallowsDiff {
         diff.setText("Выберите сложность игры:");
     }
     @FXML
-    protected void easyDiff()
+    protected void easyDiff() throws IOException
     {
-
+        gallowsVisible();
     }
 
     @FXML
-    protected void midDiff()
+    protected void midDiff() throws IOException
     {
-
+        gallowsVisible();
     }
 
     @FXML
-    protected void hardDiff()
+    protected void hardDiff() throws IOException
     {
-
+        gallowsVisible();
     }
 }

@@ -7,7 +7,12 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<VBox alignment="CENTER" spacing="20" xmlns="http://javafx.com/javafx"
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Text?>
+<VBox alignment="TOP_CENTER"
+      spacing="20"
+      style="-fx-background-color: white;"
+      xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.example.gallows.GallowsGame"
       prefHeight="400.0" prefWidth="600.0">
@@ -15,7 +20,12 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-
-
+    <Label fx:id="theme2"/>
+    <ImageView fx:id="imageView"
+               fitWidth="200"
+               fitHeight="150" />
+    <Label fx:id="writeWord"/>
+    <GridPane fx:id="keyboard"
+              alignment="CENTER"/>
 
 </VBox>

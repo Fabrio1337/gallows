@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 
-@Component
+
 public class TextsForGallows {
     private Map<String, Set<String>> themes = new HashMap<>();
 

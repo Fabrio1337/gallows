@@ -3,20 +3,17 @@ package org.example.gallows;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.*;
 class TextsForGallowsTest {
-    private TextsForGallows textsForGallows;
-    private ClassPathXmlApplicationContext context;
+    protected TextsForGallows textsForGallows;
+    protected AnnotationConfigApplicationContext context;
     @BeforeEach
     void setUp() {
-        context = new ClassPathXmlApplicationContext("spr.xml");
-        textsForGallows = context.getBean("textsForGallows", TextsForGallows.class);
-    }
-    @AfterEach
-    void tearDown() {
-        context.close();
+        context = new AnnotationConfigApplicationContext(AllAnnotations.class);
+        textsForGallows = context.getBean("getTextsForGallows", TextsForGallows.class);
     }
 
     @Test

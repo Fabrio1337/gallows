@@ -7,7 +7,10 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx"
+<VBox alignment="CENTER"
+      spacing="20.0"
+      style="-fx-background-color: white;"
+      xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.example.gallows.GallowsDiff"
       prefHeight="200" prefWidth="200">
