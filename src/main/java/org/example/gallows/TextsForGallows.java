@@ -16,7 +16,7 @@ import java.util.*;
 
 
 public class TextsForGallows {
-    private Map<String, Set<String>> themes = new HashMap<>();
+    private Map<String, ArrayList<String>> themes = new HashMap<>();
 
 
     public TextsForGallows() {
@@ -31,7 +31,7 @@ public class TextsForGallows {
 
             for (Resource resource : resources) {
                 String themeName = resource.getFilename().replace(".txt", ""); // Название темы = имя файла
-                Set<String> words = new HashSet<>();
+                ArrayList<String> words = new ArrayList<>();
 
                 try (BufferedReader reader = new BufferedReader(
                         new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8))) {
@@ -48,7 +48,7 @@ public class TextsForGallows {
         }
     }
 
-    public Map<String, Set<String>> getThemes() {
+    public Map<String, ArrayList<String>> getThemes() {
         return themes;
     }
 
@@ -56,7 +56,7 @@ public class TextsForGallows {
     //тестовый метод для проверки
     public void printThemes()
     {
-        for(Map.Entry<String, Set<String>> entry : themes.entrySet())
+        for(Map.Entry<String, ArrayList<String>> entry : themes.entrySet())
         {
             System.out.println(entry);
         }

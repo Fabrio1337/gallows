@@ -12,14 +12,13 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Text;
 
 import javax.swing.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 public class GallowsGame {
-    private Map<String, Set<String>> themes = new HashMap<>();
+    private Map<String, ArrayList<String>> themes = new HashMap<>();
+
+    protected AnnotationConfigApplicationContext context = GetBeans.getContext();
 
     private static final String[][] LAYOUT = {
             {"й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ"},
@@ -30,8 +29,8 @@ public class GallowsGame {
     @FXML
     protected ImageView imageView;
 
-    @FXML
-    protected Label theme2;
+    //@FXML
+   // protected Label theme2;
 
     @FXML
     protected GridPane keyboard;
@@ -41,6 +40,8 @@ public class GallowsGame {
 
     protected static String theme;
 
+    private String word;
+
     public void changeImage(int counter) {
         // Меняем изображение при вызове метода
         imageView.setImage(new Image(getClass().getResource("/diedPersonImages/" + counter + ".png").toExternalForm()));
@@ -49,13 +50,13 @@ public class GallowsGame {
     @FXML
     public void initialize() {
         System.out.println(theme);
-        if (theme != null) {
-            theme2.setText(theme);
-        }
+
         // Начальное изображение
         imageView.setImage(new Image(getClass().getResource("/diedPersonImages/1.png").toExternalForm()));
         writeWord.setText("Введите букву: ");
         getKeyboard();
+        getThemes();
+        wordAssignment();
     }
 
     private void getKeyboard()
@@ -92,5 +93,21 @@ public class GallowsGame {
 
         return button;
     }
+
+    private  void getThemes()
+    {
+        TextsForGallows textsForGallows = context.getBean("getTextsForGallows", TextsForGallows.class);
+        themes = textsForGallows.getThemes();
+    }
+
+    private void wordAssignment()
+    {
+        ArrayList<String> words = themes.get(theme);
+        Random random = new Random();
+        int index = random.nextInt(words.size());
+        word = words.get(index);
+        System.out.println(word);
+    }
+
 
 }
