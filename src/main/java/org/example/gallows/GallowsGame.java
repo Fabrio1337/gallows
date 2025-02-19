@@ -44,17 +44,24 @@ public class GallowsGame {
     @FXML
     protected Label writeWord;
 
+    @FXML
+    protected Label themeWord;
+
+    @FXML
+    protected Label attempts;
+
     protected static String theme;
     protected static String diff;
 
     private String word;
 
-    public void changeImage() throws IOException {
+    public void changeImage() throws Exception {
         if(counter > 8)
         {
             resultGame("Вы Проиграли!");
             counter = 1;
         }
+        attempts.setText("Осталось попыток: " + (9 - counter));
         // Меняем изображение при вызове метода
         imageView.setImage(new Image(getClass().getResource("/diedPersonImages/" + String.valueOf(counter)  + ".png").toExternalForm()));
         counter++;
@@ -63,6 +70,9 @@ public class GallowsGame {
     @FXML
     public void initialize() throws IOException {
         System.out.println(theme);
+
+        themeWord.setText("Ваша тема: " + theme);
+        attempts.setText("Осталось попыток: " + (counter + 8));
 
         getKeyboard();
         getThemes();
@@ -105,7 +115,7 @@ public class GallowsGame {
             System.out.println("Нажата клавиша: " + text);
             try {
                 realizeButton(text, button);
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -124,7 +134,7 @@ public class GallowsGame {
         writeWord.setText(wordBuilder.toString());
     }
 
-    private void resultGame( String result)  throws IOException
+    private void resultGame( String result)  throws Exception
     {
         GallowsWinOrLoseFXML gallowsWinOrLoseFXML = context.getBean("getGallowsWinOrLoseFXML", GallowsWinOrLoseFXML.class);
         GallowsWinOrLose.result = result;
@@ -133,7 +143,7 @@ public class GallowsGame {
         gallowsGameFXML.isVisible(false);
     }
 
-    private void realizeButton(String text, Button button2) throws IOException
+    private void realizeButton(String text, Button button2) throws Exception
     {
         Button button = button2;
         char[] symbols = word.toCharArray();
