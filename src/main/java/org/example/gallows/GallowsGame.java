@@ -39,6 +39,7 @@ public class GallowsGame {
     protected Label writeWord;
 
     protected static String theme;
+    protected static String diff;
 
     private String word;
 
@@ -106,6 +107,30 @@ public class GallowsGame {
         Random random = new Random();
         int index = random.nextInt(words.size());
         word = words.get(index);
+        if(diff.equals("easy"))
+        {
+            while(word.length() > 6)
+            {
+                index = random.nextInt(words.size());
+                word = words.get(index);
+            }
+        }
+        if(diff.equals("mid"))
+        {
+            while(word.length() < 6 || word.length() > 8)
+            {
+                index = random.nextInt(words.size());
+                word = words.get(index);
+            }
+        }
+        if(diff.equals("hard"))
+        {
+            while(word.length() <= 8)
+            {
+                index = random.nextInt(words.size());
+                word = words.get(index);
+            }
+        }
         System.out.println(word);
     }
 

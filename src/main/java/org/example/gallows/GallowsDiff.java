@@ -18,8 +18,9 @@ public class GallowsDiff {
     @FXML
     private Label diff;
 
-    protected void gallowsVisible() throws IOException
+    protected void gallowsVisible(String diff) throws IOException
     {
+        GallowsGame.diff = diff;
         gallowsThemesFXML.setDisplay();
         isVisible();
     }
@@ -43,18 +44,18 @@ public class GallowsDiff {
     @FXML
     protected void easyDiff() throws IOException
     {
-        gallowsVisible();
+        gallowsVisible("easy");
     }
 
     @FXML
     protected void midDiff() throws IOException
     {
-        gallowsVisible();
+        gallowsVisible("mid");
     }
 
     @FXML
     protected void hardDiff() throws IOException
     {
-        gallowsVisible();
+        gallowsVisible("hard");
     }
 }

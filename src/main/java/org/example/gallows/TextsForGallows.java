@@ -48,6 +48,7 @@ public class TextsForGallows {
         }
     }
 
+
     public Map<String, ArrayList<String>> getThemes() {
         return themes;
     }
