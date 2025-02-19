@@ -12,11 +12,17 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Text;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.*;
 
 
 public class GallowsGame {
     private Map<String, ArrayList<String>> themes = new HashMap<>();
+    private ArrayList<String> words;
+    private int counter = 1;
+    private StringBuilder wordBuilder;
+    private int countSymbol = 0;
+
 
     protected AnnotationConfigApplicationContext context = GetBeans.getContext();
 
@@ -43,24 +49,30 @@ public class GallowsGame {
 
     private String word;
 
-    public void changeImage(int counter) {
+    public void changeImage() throws IOException {
+        if(counter > 8)
+        {
+            resultGame("Вы Проиграли!");
+            counter = 1;
+        }
         // Меняем изображение при вызове метода
-        imageView.setImage(new Image(getClass().getResource("/diedPersonImages/" + counter + ".png").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/diedPersonImages/" + String.valueOf(counter)  + ".png").toExternalForm()));
+        counter++;
     }
 
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
         System.out.println(theme);
 
-        // Начальное изображение
-        imageView.setImage(new Image(getClass().getResource("/diedPersonImages/1.png").toExternalForm()));
-        writeWord.setText("Введите букву: ");
         getKeyboard();
         getThemes();
         wordAssignment();
+        printWord();
+
+        System.out.println(diff);
     }
 
-    private void getKeyboard()
+    private void getKeyboard() throws IOException
     {
         // Создаем кнопки для каждой буквы
         for (int row = 0; row < LAYOUT.length; row++) {
@@ -81,18 +93,69 @@ public class GallowsGame {
         }
     }
 
-    private Button createButton(String text) {
+    private Button createButton(String text)  {
         Button button = new Button(text);
         button.setMinSize(40, 40);
         button.setStyle("-fx-font-size: 14px;");
 
+        button.setId(text); // Устанавливаем ID
+
         // Добавляем обработчик события при нажатии
         button.setOnAction(e -> {
             System.out.println("Нажата клавиша: " + text);
-            // Здесь можно добавить свою логику обработки нажатия клавиши
+            try {
+                realizeButton(text, button);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
         });
 
         return button;
+    }
+
+    private void printWord() {
+        wordBuilder = new StringBuilder();
+        for (int i = 0; i < word.length(); i++)
+        {
+            wordBuilder.append("_");
+        }
+
+        writeWord.setText(wordBuilder.toString());
+    }
+
+    private void resultGame( String result)  throws IOException
+    {
+        GallowsWinOrLoseFXML gallowsWinOrLoseFXML = context.getBean("getGallowsWinOrLoseFXML", GallowsWinOrLoseFXML.class);
+        GallowsWinOrLose.result = result;
+        gallowsWinOrLoseFXML.setDisplay();
+        GallowsGameFXML gallowsGameFXML = context.getBean("getGallowsGameFXML", GallowsGameFXML.class);
+        gallowsGameFXML.isVisible(false);
+    }
+
+    private void realizeButton(String text, Button button2) throws IOException
+    {
+        Button button = button2;
+        char[] symbols = word.toCharArray();
+        boolean flag = false;
+        for(int i = 0; i < symbols.length; i++)
+        {
+            if(symbols[i] == text.charAt(0))
+            {
+                wordBuilder.setCharAt(i, text.charAt(0));
+                writeWord.setText(wordBuilder.toString());
+                flag = true;
+                countSymbol++;
+            }
+        }
+        if(countSymbol == word.length())
+        {
+            System.out.println("ПОБЕДА!!!!!!!!!!!!!!!!!!!");
+            resultGame("Вы победили!");
+
+        }
+        if(!flag) changeImage();
+        button.setDisable(true);
     }
 
     private  void getThemes()
@@ -103,7 +166,7 @@ public class GallowsGame {
 
     private void wordAssignment()
     {
-        ArrayList<String> words = themes.get(theme);
+        words = themes.get(theme);
         Random random = new Random();
         int index = random.nextInt(words.size());
         word = words.get(index);
@@ -133,6 +196,7 @@ public class GallowsGame {
         }
         System.out.println(word);
     }
+
 
 
 }

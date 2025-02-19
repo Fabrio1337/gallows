@@ -24,7 +24,8 @@
     <ImageView fx:id="imageView"
                fitWidth="200"
                fitHeight="150" />
-    <Label fx:id="writeWord"/>
+    <Label fx:id="writeWord"
+           style="-fx-font-size: 45px; -fx-padding: 10px;"/>
     <GridPane fx:id="keyboard"
               alignment="CENTER"/>
 

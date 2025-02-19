@@ -33,4 +33,7 @@ public class AllAnnotations {
     public GallowsThemesFXML getGallowsThemesFXML() {
         return new GallowsThemesFXML();
     }
+
+    @Bean
+    public  GallowsWinOrLoseFXML getGallowsWinOrLoseFXML() { return new GallowsWinOrLoseFXML(); }
 }
